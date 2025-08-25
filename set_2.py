@@ -181,18 +181,18 @@ def vigenere_cipher(message, key):
     key_index = 0
 
     for letter in message:
+        key_letter = key[key_index % len(key)]
+        
         if letter == " ":
             result += " "
         else:
              msg_index = a.index(letter) 
 
-             key_letter = key[key_index % len(key)]
              key_index_current = a.index(key_letter)
 
-             shifted = (msg_index + key_index_current) % 26
-             result += a[shifted]
+             result += a[(msg_index + key_index_current) % 26]
 
-             key_index += 1
+        key_index += 1
 
     return result
 
@@ -247,7 +247,19 @@ def scytale_cipher(message, shift):
     '''
     # Replace `pass` with your code.
     # Stay within the function. Only use the parameters as input. The function should return your answer.
-    pass
+    remainder = len(message) % shift
+    if remainder != 0:
+         message += "_" * (shift - remainder)
+
+    n = len(message)
+    result = ""
+
+    for i in range(n):
+         index = (i // shift) + (n // shift) * (i % shift)
+         result += message[index]
+
+    return result 
+         
 
 def scytale_decipher(message, shift):
     '''Scytale De-cipher.
@@ -275,4 +287,12 @@ def scytale_decipher(message, shift):
     '''
     # Replace `pass` with your code.
     # Stay within the function. Only use the parameters as input. The function should return your answer.
-    pass
+    n = len(message)
+
+    decoded_msg = [""] * n
+
+    for i in range(n):
+        index = (i // shift) + (n // shift) * (i % shift)
+        decoded_msg[index] = message[i]
+
+    return "".join(decoded_msg)
